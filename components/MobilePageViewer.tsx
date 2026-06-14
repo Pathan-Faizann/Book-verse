@@ -71,7 +71,7 @@ export default function MobilePageViewer({
         finalH = finalW / aspect;
 
         // Prevent excessive height
-        if (fitMode !== 'actualSize' && finalH > containerH * 1.5) {
+        if (finalH > containerH * 1.5) {
           finalH = containerH * 1.5;
           finalW = finalH * aspect;
         }
