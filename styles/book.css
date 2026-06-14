@@ -1,0 +1,349 @@
+/* ── Theme Variables ──────────────────────────────────────────── */
+
+:root,
+[data-theme='light'] {
+  --bg: #f0f0f0;
+  --bg-panel: #ffffff;
+  --bg-surface: #f8f8f8;
+  --text-primary: #1a1a1a;
+  --text-secondary: #555555;
+  --text-muted: #888888;
+  --accent: #4f46e5;
+  --accent-hover: #4338ca;
+  --border: #e0e0e0;
+  --shadow: rgba(0, 0, 0, 0.15);
+  --page-bg: #ffffff;
+  --page-shadow: rgba(0, 0, 0, 0.25);
+  --page-edge: #e8e8e8;
+  --book-cover: #2d2d2d;
+  --spine-color: #1a1a1a;
+  --progress-bg: #e0e0e0;
+  --progress-fill: #4f46e5;
+}
+
+[data-theme='dark'] {
+  --bg: #111111;
+  --bg-panel: #1a1a1f;
+  --bg-surface: #222228;
+  --text-primary: #f5f5f5;
+  --text-secondary: #a0a0b0;
+  --text-muted: #6b6b7a;
+  --accent: #7c6af7;
+  --accent-hover: #6b5ce6;
+  --border: #2a2a35;
+  --shadow: rgba(0, 0, 0, 0.7);
+  --page-bg: #1a1a1a;
+  --page-shadow: rgba(0, 0, 0, 0.8);
+  --page-edge: #2a2a35;
+  --book-cover: #0d0d12;
+  --spine-color: #08080d;
+  --progress-bg: #2a2a35;
+  --progress-fill: #7c6af7;
+}
+
+/* Safe Area Inset Classes */
+.safe-padding-top {
+  padding-top: max(16px, env(safe-area-inset-top));
+}
+
+.safe-padding-bottom {
+  padding-bottom: max(16px, env(safe-area-inset-bottom));
+}
+
+.safe-inset-bottom-bar {
+  bottom: max(16px, env(safe-area-inset-bottom));
+}
+
+
+[data-theme='vintage'] {
+  --bg: #8b7355;
+  --bg-panel: #f5e6c8;
+  --bg-surface: #ede0c4;
+  --text-primary: #2c1e0f;
+  --text-secondary: #5c3d1e;
+  --text-muted: #8b6544;
+  --accent: #8b4513;
+  --accent-hover: #6d3410;
+  --border: #c4a882;
+  --shadow: rgba(44, 30, 15, 0.3);
+  --page-bg: #fdf6e3;
+  --page-shadow: rgba(44, 30, 15, 0.35);
+  --page-edge: #e8d5b0;
+  --book-cover: #3d2010;
+  --spine-color: #2c1505;
+  --progress-bg: #c4a882;
+  --progress-fill: #8b4513;
+}
+
+/* ── Base ─────────────────────────────────────────────────────── */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text-primary);
+  font-family: 'Georgia', 'Times New Roman', serif;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+[data-theme='vintage'] body,
+[data-theme='vintage'] .font-serif {
+  font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
+}
+
+/* ── Paper Texture (Vintage) ──────────────────────────────────── */
+
+[data-theme='vintage'] .paper-texture {
+  position: relative;
+}
+
+[data-theme='vintage'] .paper-texture::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  border-radius: inherit;
+  z-index: 1;
+}
+
+/* ── Book Container ───────────────────────────────────────────── */
+
+.book-container {
+  perspective: 2000px;
+  transform-style: preserve-3d;
+}
+
+.book-scene {
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Page Styles ──────────────────────────────────────────────── */
+
+.page-canvas-wrap {
+  background: var(--page-bg);
+  box-shadow:
+    inset -3px 0 8px rgba(0, 0, 0, 0.08),
+    inset 3px 0 8px rgba(0, 0, 0, 0.04);
+  position: relative;
+  overflow: hidden;
+}
+
+[data-theme='vintage'] .page-canvas-wrap {
+  background: linear-gradient(135deg,
+      #fdf6e3 0%,
+      #f9f0d3 30%,
+      #fdf6e3 60%,
+      #f5e6c8 100%);
+}
+
+.page-shadow-left {
+  background: linear-gradient(to right,
+      rgba(0, 0, 0, 0.18) 0%,
+      rgba(0, 0, 0, 0.06) 40%,
+      transparent 100%);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 60px;
+  height: 100%;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.page-shadow-right {
+  background: linear-gradient(to left,
+      rgba(0, 0, 0, 0.18) 0%,
+      rgba(0, 0, 0, 0.06) 40%,
+      transparent 100%);
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 60px;
+  height: 100%;
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* Page curl corner effect */
+.page-curl {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(225deg,
+      var(--bg) 45%,
+      var(--page-shadow) 50%,
+      var(--page-edge) 55%,
+      var(--page-bg) 100%);
+  clip-path: polygon(100% 0, 100% 100%, 0 100%);
+  z-index: 10;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.page-curl:hover {
+  width: 60px;
+  height: 60px;
+}
+
+/* ── Spine ────────────────────────────────────────────────────── */
+
+.book-spine {
+  width: 32px;
+  background: linear-gradient(to right,
+      var(--spine-color),
+      var(--book-cover) 30%,
+      rgba(255, 255, 255, 0.08) 50%,
+      var(--book-cover) 70%,
+      var(--spine-color));
+  box-shadow:
+    2px 0 12px rgba(0, 0, 0, 0.4),
+    -2px 0 6px rgba(0, 0, 0, 0.2);
+  position: relative;
+  flex-shrink: 0;
+}
+
+.book-spine::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(to bottom,
+      transparent,
+      rgba(255, 255, 255, 0.1) 20%,
+      rgba(255, 255, 255, 0.05) 80%,
+      transparent);
+}
+
+/* ── React Pageflip Overrides ─────────────────────────────────── */
+
+.stf__parent {
+  box-shadow:
+    -8px 0 30px var(--page-shadow),
+    8px 0 30px var(--page-shadow),
+    0 20px 60px var(--page-shadow) !important;
+  border-radius: 2px;
+}
+
+.stf__block {
+  background: var(--page-bg) !important;
+}
+
+/* ── Progress Bar ─────────────────────────────────────────────── */
+
+.reading-progress {
+  height: 3px;
+  background: var(--progress-bg);
+  position: relative;
+  overflow: hidden;
+}
+
+.reading-progress-fill {
+  height: 100%;
+  background: linear-gradient(to right,
+      var(--progress-fill),
+      color-mix(in srgb, var(--progress-fill) 70%, white 30%));
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.reading-progress-fill::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--progress-fill);
+  box-shadow: 0 0 6px var(--progress-fill);
+}
+
+/* ── Skeleton Loading ─────────────────────────────────────────── */
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(90deg,
+      var(--border) 25%,
+      color-mix(in srgb, var(--border) 60%, var(--bg-surface) 40%) 50%,
+      var(--border) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+  border-radius: 4px;
+}
+
+/* ── Panel Slide-in ───────────────────────────────────────────── */
+
+.panel-slide {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+}
+
+/* ── Scrollbar ────────────────────────────────────────────────── */
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-surface);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* ── Vintage ambient glow ─────────────────────────────────────── */
+
+[data-theme='vintage'] .book-ambient {
+  box-shadow:
+    0 0 80px rgba(139, 69, 19, 0.2),
+    0 40px 100px rgba(44, 30, 15, 0.4);
+}
+
+[data-theme='dark'] .book-ambient {
+  box-shadow:
+    0 0 60px rgba(124, 106, 247, 0.1),
+    0 40px 100px rgba(0, 0, 0, 0.6);
+}
+
+[data-theme='light'] .book-ambient {
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.2),
+    0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* ── Fullscreen ────────────────────────────────────────────────── */
+
+:fullscreen .reader-wrap {
+  padding: 0 !important;
+}
+
+:-webkit-full-screen .reader-wrap {
+  padding: 0 !important;
+}
